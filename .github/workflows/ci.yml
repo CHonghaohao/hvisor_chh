@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [dev]
+    branches: [dev_cicd]
   pull_request:
-    branches: [dev]
+    branches: [dev_cicd]
   # enable manual trigger
   workflow_dispatch:
 
