@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-system-aarch64 gdb-multiarch llvm-dev libclang-dev wget
-          cargo install cargo-binutils
+          cargo install cargo-binutils --locked
           cargo install cargo-xbuild
 
       - name: Build hvisor
