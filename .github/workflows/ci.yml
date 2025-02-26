@@ -34,14 +34,14 @@ jobs:
           cargo install cargo-binutils --locked
           cargo install cargo-xbuild
 
-      - name: Build hvisor
+      - name: Compileddtb
         run: |
-          cat Makefile
+          ./test/tcompileddtb.sh
 
-      - name: Build hvisor
+      - name: Download rootfs and image
         run: |
-          make
+          ./test/tdownload_all.sh
 
       - name: Run Tests
         run: |
-          make run
+          ./test/tstart.sh
