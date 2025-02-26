@@ -21,8 +21,8 @@ IMAGE_FILE="${TARGET_DIR}/Image"     # 镜像文件完整路径
 IMAGE_URL="$BASE_URL/Image"
 
 # 下载控制参数
-MAX_RETRIES=1                # 单文件重试次数
-PARALLEL_DOWNLOADS=3         # 并发下载数（提升大文件下载速度）
+MAX_RETRIES=3                # 单文件重试次数
+PARALLEL_DOWNLOADS=1         # 并发下载数（提升大文件下载速度）
 TIMEOUT=3600                  # 单文件超时时间（秒）
 
 # 颜色定义

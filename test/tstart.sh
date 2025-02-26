@@ -11,11 +11,11 @@ set password [lindex $argv 0]
 
 # 等待输入root密码和U-Boot提示符
 expect {
-   "password for chh: " {
-        puts "\r============处理sudo密码和U-Boot命令============\r"
-        send "$password\r"
-        exp_continue
-   }
+#    "password for chh: " {
+#         puts "\r============处理sudo密码和U-Boot命令============\r"
+#         send "$password\r"
+#         exp_continue
+#    }
    "=>" {
         # 在提示符下输入命令
         send "bootm 0x40400000 - 0x40000000\r"
