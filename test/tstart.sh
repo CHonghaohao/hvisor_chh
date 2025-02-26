@@ -7,7 +7,7 @@ spawn make run
 
 # 设置超时时间（根据需要调整）
 set timeout 240
-set password [lindex $argv 0]
+# set password [lindex $argv 0]
 
 # 等待输入root密码和U-Boot提示符
 expect {
