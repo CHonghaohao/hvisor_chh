@@ -16,7 +16,7 @@ expect {
 #         send "$password\r"
 #         exp_continue
 #    }
-   "=>" {
+   -re "(1 bootflow, 1 valid).*=>" {
         # 在提示符下输入命令
         send "bootm 0x40400000 - 0x40000000\r"
    }
