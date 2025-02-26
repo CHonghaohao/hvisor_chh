@@ -11,7 +11,8 @@ env:
   ARCH: aarch64
   RUSTC_TARGET: aarch64-unknown-none
   MODE: debug
-  FEATURES: platform_qemu
+  FEATURES: platform_qemu,gicv3
+  BOARD: qemu
 jobs:
   test:
     name: Build and Test hvisor on QEMU for aarch64
@@ -32,6 +33,10 @@ jobs:
           sudo apt-get install -y qemu-system-aarch64 gdb-multiarch llvm-dev libclang-dev wget
           cargo install cargo-binutils --locked
           cargo install cargo-xbuild
+
+      - name: Build hvisor
+        run: |
+          cat Makefile
 
       - name: Build hvisor
         run: |
