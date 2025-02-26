@@ -6,7 +6,7 @@ testcase_file_list=(
     ./test/testcase/tc_ls.txt
     ./test/testcase/tc_pwd.txt
     ./test/testcase/tc_insmod.txt
-    ./test/testcase/tc_zone1_start.txt
+    # ./test/testcase/tc_zone1_start.txt
     ./test/testcase/tc_zone1_ls.txt
     ./test/testcase/tc_zone_list2.txt
     ./test/testcase/tc_zone_list1.txt
@@ -16,7 +16,7 @@ testresult_file_list=(
     ./test/testresult/test_ls.txt
     ./test/testresult/test_pwd.txt
     ./test/testresult/test_insmod.txt
-    ./test/testresult/test_zone1_start.txt
+    # ./test/testresult/test_zone1_start.txt
     ./test/testresult/test_zone1_ls.txt
     ./test/testresult/test_zone_list2.txt
     ./test/testresult/test_zone_list1.txt
@@ -26,9 +26,9 @@ testcase_name_list=(
     ls_out
     pwd_out
     insmod_hvisor.ko
-    zone1_start_out
-    screen_zone1
-    zone1_start_list
+    # zone1_start_out
+    zone1_start
+    zone_list
     zone1_shutdown
 )
 

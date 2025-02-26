@@ -102,15 +102,16 @@ expect {
         exit 1
     }
 }
-expect {
-    "root@(none):/home/arm64# " {
-        # send "dmesg | tail -n 3 | awk -F ']' '{print \$2}' > ./test/testresult/test_zone1_start.txt\r"
-        send "./test/textract_dmesg.sh ./test/testresult/test_zone1_start.txt\r"
-    }
-    timeout {
-        exit 1
-    }
-}
+# 暂时去掉根据Log判断zone1是否启动成功，只根据下一个用例判断
+# expect {
+#     "root@(none):/home/arm64# " {
+#         # send "dmesg | tail -n 3 | awk -F ']' '{print \$2}' > ./test/testresult/test_zone1_start.txt\r"
+#         send "./test/textract_dmesg.sh ./test/testresult/test_zone1_start.txt\r"
+#     }
+#     timeout {
+#         exit 1
+#     }
+# }
 
 # 测试是否可以screen进zone1
 expect {

@@ -4,7 +4,7 @@
 # 使用方式: ./download_all.sh
 
 # 配置参数
-BASE_URL="https://github.com/CHonghaohao/hvisor_env_img/releases/download/v2025.02.26sh"
+BASE_URL="https://github.com/CHonghaohao/hvisor_env_img/releases/download/v2025.02.27v1"
 
 # 分卷文件配置（必须按顺序排列）
 ZIP_PARTS=(
