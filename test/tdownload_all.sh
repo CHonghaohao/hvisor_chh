@@ -1,49 +1,50 @@
 #!/bin/bash
 
-# 分卷压缩 + 独立镜像文件下载合并解压脚本
-# 使用方式: ./download_all.sh
+# Split archive + independent image download/merge/unzip script
+# Usage: ./download_all.sh
 
-# 配置参数
-BASE_URL="https://github.com/CHonghaohao/hvisor_env_img/releases/download/v2025.02.27v1"
+# Configuration parameters
+RELEASE_NAME="v2025.02.28"
+BASE_URL="https://github.com/CHonghaohao/hvisor_env_img/releases/download/$RELEASE_NAME"
 
-# 分卷文件配置（必须按顺序排列）
+# Split archive configuration (must be in order)
 ZIP_PARTS=(
   "rootfs1.zip.001"
   "rootfs1.zip.002"
   "rootfs1.zip.003"
 )
 ZIP_OUTPUT="rootfs1.zip"
-UNZIP_DIR="images/aarch64/virtdisk"          # 解压目标目录
+UNZIP_DIR="images/aarch64/virtdisk"          # Extraction directory
 
-# 独立镜像文件配置
-TARGET_DIR="images/aarch64/kernel"   # 目标目录路径
-IMAGE_FILE="${TARGET_DIR}/Image"     # 镜像文件完整路径
+# Independent image configuration
+TARGET_DIR="images/aarch64/kernel"   # Target directory path
+IMAGE_FILE="${TARGET_DIR}/Image"     # Full image file path
 IMAGE_URL="$BASE_URL/Image"
 
-# 下载控制参数
-MAX_RETRIES=3                # 单文件重试次数
-PARALLEL_DOWNLOADS=1         # 并发下载数（提升大文件下载速度）
-TIMEOUT=3600                  # 单文件超时时间（秒）
+# Download control parameters
+MAX_RETRIES=3                # Max retries per file
+PARALLEL_DOWNLOADS=1         # Parallel downloads (improves speed for large files)
+TIMEOUT=3600                 # Timeout per file (seconds)
 
-# 颜色定义
+# Color definitions
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-# 检查依赖项
+# Check dependencies
 check_dependencies() {
   local missing=()
   command -v unzip >/dev/null 2>&1 || missing+=("unzip")
   command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1 || missing+=("curl/wget")
 
   if [ ${#missing[@]} -gt 0 ]; then
-    echo -e "${RED}错误：缺少依赖 - ${missing[*]}${NC}"
+    echo -e "${RED}Error: Missing dependencies - ${missing[*]}${NC}"
     exit 1
   fi
 }
 
-# 带进度显示的下载函数
+# Download function with progress display
 download_file() {
   local url="$1"
   local output="$2"
@@ -66,39 +67,39 @@ download_file() {
     fi
 
     ((retries++))
-    echo -e "${YELLOW}重试 ($retries/$MAX_RETRIES): $output${NC}"
+    echo -e "${YELLOW}Retry ($retries/$MAX_RETRIES): $output${NC}"
     sleep 2
   done
 
-  echo -e "${RED}下载失败: $url${NC}"
+  echo -e "${RED}Download failed: $url${NC}"
   return 1
 }
 
-# 主流程
+# Main process
 main() {
   check_dependencies
 
-  # 检查最终文件是否存在
+  # Check if final files exist
   if [ -d "$UNZIP_DIR" ] && [ -f "$IMAGE_FILE" ]; then
-    echo -e "${GREEN}所有文件已存在：\n- 镜像文件: $IMAGE_FILE\n- 解压目录: $UNZIP_DIR${NC}"
+    echo -e "${GREEN}All files already exist:\n- Image file: $IMAGE_FILE\n- Extracted directory: $UNZIP_DIR${NC}"
     exit 0
   fi
 
-  # 并发下载分卷文件
-  echo -e "${YELLOW}开始下载分卷文件 (并发数: $PARALLEL_DOWNLOADS)...${NC}"
+  # Parallel download split files
+  echo -e "${YELLOW}Starting split file downloads (parallel: $PARALLEL_DOWNLOADS)...${NC}"
   for part in "${ZIP_PARTS[@]}"; do
     local url="$BASE_URL/$part"
     local output="$part"
 
     if [ -f "$output" ]; then
-      echo -e "${GREEN}分卷已存在: $output${NC}"
+      echo -e "${GREEN}Part already exists: $output${NC}"
       continue
     fi
 
     ((i=i%PARALLEL_DOWNLOADS)); ((i++==0)) && wait
     (
       if download_file "$url" "$output"; then
-        echo -e "${GREEN}下载完成: $output${NC}"
+        echo -e "${GREEN}Download completed: $output${NC}"
       else
         exit 1
       fi
@@ -106,54 +107,54 @@ main() {
   done
   wait
 
-  # 检查分卷完整性
+  # Verify split file integrity
   for part in "${ZIP_PARTS[@]}"; do
     if [ ! -f "$part" ]; then
-      echo -e "${RED}分卷缺失: $part${NC}"
+      echo -e "${RED}Missing part: $part${NC}"
       exit 1
     fi
   done
 
-  # 合并分卷
+  # Merge split files
   if [ ! -f "$ZIP_OUTPUT" ]; then
-    echo -e "${YELLOW}合并分卷文件 -> $ZIP_OUTPUT ...${NC}"
+    echo -e "${YELLOW}Merging split files -> $ZIP_OUTPUT ...${NC}"
     cat "${ZIP_PARTS[@]}" > "$ZIP_OUTPUT" || {
-      echo -e "${RED}合并失败!${NC}"
+      echo -e "${RED}Merge failed!${NC}"
       exit 1
     }
   else
-    echo -e "${GREEN}使用已存在的合并文件: $ZIP_OUTPUT${NC}"
+    echo -e "${GREEN}Using existing merged file: $ZIP_OUTPUT${NC}"
   fi
 
-  # 解压文件
+  # Unzip files
   if [ ! -d "$UNZIP_DIR" ]; then
-    echo -e "${YELLOW}解压到目录: $UNZIP_DIR ...${NC}"
-    unzip -q "$ZIP_OUTPUT" -d "$UNZIP_DIR" || {  # 添加 -d 参数指定解压目录
-      echo -e "${RED}解压失败! 可能原因:\n1. 密码保护\n2. 文件损坏${NC}"
+    echo -e "${YELLOW}Extracting to directory: $UNZIP_DIR ...${NC}"
+    unzip -q "$ZIP_OUTPUT" -d "$UNZIP_DIR" || {
+      echo -e "${RED}Extraction failed! Possible reasons:\n1. Password protected\n2. Corrupted file${NC}"
       exit 1
     }
   fi
 
-  # 下载独立镜像文件
-  echo -e "${YELLOW}下载镜像文件: $IMAGE_FILE ...${NC}"
-  mkdir -p "$TARGET_DIR" || {  # 自动创建目标目录
-    echo -e "${RED}无法创建目录: $TARGET_DIR${NC}"
+  # Download independent image
+  echo -e "${YELLOW}Downloading image file: $IMAGE_FILE ...${NC}"
+  mkdir -p "$TARGET_DIR" || {
+    echo -e "${RED}Failed to create directory: $TARGET_DIR${NC}"
     exit 1
   }
 
   if [ -f "$IMAGE_FILE" ]; then
-    echo -e "${GREEN}镜像已存在: $IMAGE_FILE${NC}"
+    echo -e "${GREEN}Image already exists: $IMAGE_FILE${NC}"
   else
     download_file "$IMAGE_URL" "$IMAGE_FILE" || {
-        echo -e "${RED}下载失败: $IMAGE_FILE${NC}"
+        echo -e "${RED}Download failed: $IMAGE_FILE${NC}"
         exit 1
     }
   fi
 
-  # 最终验证
-  echo -e "\n${GREEN}所有组件就绪："
-  echo -e "  - 镜像文件: $(ls -lh $IMAGE_FILE)"
-  echo -e "  - 解压目录: $(du -sh $UNZIP_DIR)${NC}"
+  # Final verification
+  echo -e "\n${GREEN}All components ready: "
+  echo -e "  - Image file: $(ls -lh $IMAGE_FILE)"
+  echo -e "  - Extracted directory: $(du -sh $UNZIP_DIR)${NC}"
 }
 
 main

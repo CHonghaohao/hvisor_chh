@@ -1,23 +1,23 @@
 #!/usr/bin/expect -f
 
-#设置环境变量以支持UTF-8
+# Set environment variables to support UTF-8
 set env(LANG) "en_US.UTF-8"
-send_user "\r============开始执行自动化脚本============\r"
+send_user "\r============Starting automated script execution============\r"
 spawn make run
 
-# 设置超时时间（根据需要调整）
+# Set timeout (adjust as needed)
 set timeout 240
 # set password [lindex $argv 0]
 
-# 等待输入root密码和U-Boot提示符
+# Wait for root password prompt and U-Boot prompt
 expect {
 #    "password for chh: " {
-#         puts "\r============处理sudo密码和U-Boot命令============\r"
+#         puts "\r============Handling sudo password and U-Boot commands============\r"
 #         send "$password\r"
 #         exp_continue
 #    }
    -re "(1 bootflow, 1 valid).*=>" {
-        # 在提示符下输入命令
+        # Enter command at prompt
         send "bootm 0x40400000 - 0x40000000\r"
    }
    timeout {
@@ -25,7 +25,7 @@ expect {
    }
 }
 
-puts "\n============测试启动hvisor, 同时测试是否可以启动virtio守护进程============\n"
+puts "\n============Testing hvisor startup and virtio daemon============\n"
 
 expect {
     -re {job control turned off.*#} {
@@ -45,7 +45,7 @@ expect {
     }
 }
 
-# 测试ls命令
+# Test ls command
 expect {
     "root@(none):/home/arm64# " {
         send "ls > ./test/testresult/test_ls.txt\r"
@@ -55,7 +55,7 @@ expect {
     }
 }
 
-# 测试pwd命令
+# Test pwd command
 expect {
     "root@(none):/home/arm64# " {
         send "pwd > ./test/testresult/test_pwd.txt\r"
@@ -65,7 +65,7 @@ expect {
     }
 }
 
-# 测试装载内核模块
+# Test kernel module loading
 expect {
     "root@(none):/home/arm64# " {
         send "insmod hvisor.ko\r"
@@ -85,7 +85,7 @@ expect {
 }
 
 
-# 测试启动zone1
+# Test starting zone1
 expect {
     "root@(none):/home/arm64# " {
         send "./linux2.sh\r"
@@ -102,10 +102,10 @@ expect {
         exit 1
     }
 }
-# 可以暂时去掉根据Log判断zone1是否启动成功，只根据下一个用例判断
+# Temporarily skip checking zone1 startup based on Log
 expect {
     "root@(none):/home/arm64# " {
-        # send "dmesg | tail -n 3 | awk -F ']' '{print \$2}' > ./test/testresult/test_zone1_start.txt\r"
+        send "dmesg | tail -n 3 | awk -F ']' '{print \$2}' > ./test/testresult/test_zone1_start.txt\r"
         send "./test/textract_dmesg.sh ./test/testresult/test_zone1_start.txt\r"
     }
     timeout {
@@ -113,7 +113,7 @@ expect {
     }
 }
 
-# 测试是否可以screen进zone1
+# Test screen access to zone1
 expect {
     "root@(none):/home/arm64# " {
         send "./screen_linux2.sh\r"
@@ -131,12 +131,12 @@ expect {
         exit 1
     }
 }
-# 定义一个变量来存储zone1的ls命令的输出
+# Variable to store zone1 ls command output
 set test_zone1_ls ""
 expect "root@(none):/# "
 send "cd /home/arm64\r"
 expect "root@(none):/home/arm64# "
-# 发送ls命令并捕获输出，在zone1中创建了一个zone1.txt，用来判断是否进入了zone1
+# Send ls command and capture output to determine if zone1 is entered
 send "ls | grep zone1.txt\r"
 expect {
     -re {^[^\n]+\n(.*)\r\r\nroot@\(none\):/home/arm64# } {
@@ -156,7 +156,7 @@ expect {
     }
 }
 
-# 测试打印启动zone1后的zone列表
+# Test printing zone list after starting zone1
 expect {
     "root@(none):/home/arm64# " {
         send "./hvisor zone list > ./test/testresult/test_zone_list2.txt\r"
@@ -166,7 +166,7 @@ expect {
     }
 }
 
-# 关闭zone1
+# Shutting down zone1
 expect {
     "root@(none):/home/arm64# " {
         send "./hvisor zone shutdown -id 1\r"
@@ -176,7 +176,7 @@ expect {
     }
 }
 
-# 测试打印删除zone1后的zone列表
+# Test printing zone list after removing zone1
 expect {
     "root@(none):/home/arm64# " {
         send "./hvisor zone list > ./test/testresult/test_zone_list1.txt\r"
@@ -195,8 +195,8 @@ expect {
 #     }
 # }
 
-after 5000  # 延迟5秒
-# 对比测试结果，最后打印
+after 5000  # Delay 5 seconds
+# Compare test results and print finally
 expect {
     "root@(none):/home/arm64# " {
         send "./test/tresult.sh\r"
@@ -215,6 +215,6 @@ expect {
     }
 }
 
-# 结束脚本保持交互状态
+# exit
 expect eof
 exit 0
