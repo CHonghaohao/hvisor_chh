@@ -2,7 +2,7 @@
 
 # Define a function to process dmesg output
 extract_dmesg() {
-    local output_file="$1" # The first parameter is output file pat
+    local output_file="$1" # The first parameter is output file path
 
     # Capture dmesg output
     local dmesg_output=$(dmesg)
@@ -26,14 +26,14 @@ extract_dmesg() {
         # Traverse from last line backwards
         for (i = NR; i > 0; i--) {
             if (lines[i] !~ /random: fast init done/) {
-                # If line doesn't contain "random: fast init done"
+                # If line does not contain - random: fast init done -
                 if (count < 2) {
                     # Store line in output array
                     output_lines[2-count] = lines[i]
                     count++
                 }
             }
-             # Break loop when count reaches 2
+            # Break loop when count reaches 2
             if (count >= 2) {
                 break
             }
