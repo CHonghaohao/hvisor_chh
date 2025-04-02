@@ -169,7 +169,13 @@ fn wakeup_secondary_cpus(this_id: usize, host_dtb: usize) {
 }
 
 fn rust_main(cpuid: usize, host_dtb: usize) {
-    arch::trap::install_trap_vector();
+    //arch::trap::install_trap_vector();
+    // use core::arch::asm;
+    // unsafe {
+    //     asm!(
+    //         ".word 0x123",
+    //     );
+    // }
 
     let mut is_primary = false;
     println!("Hello, HVISOR!");

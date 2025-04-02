@@ -1,11 +1,11 @@
-ARCH ?= aarch64
+ARCH ?= riscv64
 LOG ?= info
 STATS ?= off
 PORT ?= 2333
 MODE ?= debug
-BOARD ?= qemu-gicv3
+BOARD ?= megrez
 FEATURES=
-BID ?=
+BID ?=riscv64/megrez
 
 # if user uses `make ID=aarch64/qemu-gicv2`, we parse it into ARCH and BOARD
 ifeq ($(BID),)
@@ -137,7 +137,7 @@ jlink-server:
 	JLinkGDBServer -select USB -if JTAG -device Cortex-A53 -port 1234
 
 cp:
-	cp $(hvisor_bin) ~/tftp
+	cp $(hvisor_bin) /mnt/f/file/megrez/
 
 test-pre: download-test-img
 	chmod +x platform/$(ARCH)/$(BOARD)/test/runner.sh

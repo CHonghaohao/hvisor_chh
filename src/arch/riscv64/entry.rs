@@ -22,6 +22,7 @@ pub unsafe extern "C" fn arch_entry() -> i32 {
     //a0=cpuid,a1=dtb addr
     core::arch::asm!(
         "
+        // .word 0x123
         la t0, __core_end                // t0 = core_end
         li t1, {per_cpu_size}            // t1 = per_cpu_size
         mul t2, a0, t1                   // t2 = cpuid * per_cpu_size
