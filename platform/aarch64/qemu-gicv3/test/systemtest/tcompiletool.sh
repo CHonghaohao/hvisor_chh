@@ -5,7 +5,7 @@ set -e  # Exit immediately if any command fails
 (
     cd ./platform/aarch64/qemu-gicv3/image/virtdisk
     mkdir rootfs/
-    sudo mount rootfs1.ext4 rootfs
+    mount rootfs1.ext4 rootfs
     pwd
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
