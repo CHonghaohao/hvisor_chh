@@ -167,34 +167,34 @@ expect {
 }
 
 # temporarily disable the problematic subtests
-# # Shutting down zone1
-# expect {
-#     "root@(none):/home/arm64# " {
-#         send "./hvisor zone shutdown -id 1\r"
-#     }
-#     timeout {
-#         exit 1
-#     }
-# }
+# Shutting down zone1
+expect {
+    "root@(none):/home/arm64# " {
+        send "./hvisor zone shutdown -id 1\r"
+    }
+    timeout {
+        exit 1
+    }
+}
 
-# # Test printing zone list after removing zone1
-# expect {
-#     "root@(none):/home/arm64# " {
-#         send "./hvisor zone list > ./test/testresult/test_zone_list1.txt\r"
-#     }
-#     timeout {
-#         exit 1
-#     }
-# }
+# Test printing zone list after removing zone1
+expect {
+    "root@(none):/home/arm64# " {
+        send "./hvisor zone list > ./test/testresult/test_zone_list1.txt\r"
+    }
+    timeout {
+        exit 1
+    }
+}
 
-# expect {
-#     "root@(none):/home/arm64# " {
-#         send "echo \"Test out finish!!\"\r"
-#     }
-#     timeout {
-#         exit 1
-#     }
-# }
+expect {
+    "root@(none):/home/arm64# " {
+        send "echo \"Test out finish!!\"\r"
+    }
+    timeout {
+        exit 1
+    }
+}
 
 after 5000  # Delay 5 seconds
 # Compare test results and print finally
