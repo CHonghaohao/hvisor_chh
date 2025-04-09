@@ -6,14 +6,13 @@ set -e  # Exit immediately if any command fails
     cd ./platform/aarch64/qemu-gicv3/image/virtdisk
     mkdir rootfs/
     sudo mount rootfs1.ext4 rootfs
-    sudo -i
-    cd rootfs/home/arm64/
     pwd
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
-    make all ARCH=arm64 LOG=LOG_WARN KDIR=/home/chh/workspaces/linux_5.4
-    cp ./tools/hvisor ../
-    cp ./driver/hvisor.ko ../
+    make all ARCH=arm64 LOG=LOG_WARN KDIR=rootfs/home/arm64/linux_5.4
+    cp ./tools/hvisor ../rootfs/home/arm64/linux_5.4
+    cp ./driver/hvisor.ko ../rootfs/home/arm64/linux_5.4
+    cd ..
     sudo umount rootfs
     
 )
