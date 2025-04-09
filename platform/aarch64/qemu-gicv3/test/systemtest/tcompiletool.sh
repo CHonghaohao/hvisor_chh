@@ -7,9 +7,10 @@ set -e  # Exit immediately if any command fails
     mkdir rootfs/
     sudo mount rootfs1.ext4 rootfs
     pwd
+    ll rootfs
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
-    make all ARCH=arm64 LOG=LOG_WARN KDIR=rootfs/home/arm64/linux_5.4
+    make all ARCH=arm64 LOG=LOG_WARN KDIR=../rootfs/home/arm64/linux_5.4
     cp ./tools/hvisor ../rootfs/home/arm64/linux_5.4
     cp ./driver/hvisor.ko ../rootfs/home/arm64/linux_5.4
     cd ..
