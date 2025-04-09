@@ -7,10 +7,12 @@ on:
     branches:
       - main
       - dev
+      - dev_ci
   pull_request:
     branches:
       - main
       - dev
+      - dev_ci
   workflow_dispatch:
 env:
   MODE: debug
