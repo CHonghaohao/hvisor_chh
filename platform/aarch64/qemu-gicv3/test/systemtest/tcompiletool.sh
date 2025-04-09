@@ -4,9 +4,9 @@ set -e  # Exit immediately if any command fails
 # Compile hvisor-tool
 (
     cd ./platform/aarch64/qemu-gicv3/image/virtdisk
-    mkdir roofs
+    mkdir rootfs/
     sudo mount rootfs1.ext4 rootfs
-    cd roofs/home/arm64/
+    cd rootfs/home/arm64/
     pwd
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
