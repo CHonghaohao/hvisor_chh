@@ -10,7 +10,7 @@ set -e  # Exit immediately if any command fails
     pwd
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
-    make all ARCH=arm64 LOG=LOG_WARN KDIR=../../rootfs/home/arm64/linux_5.4
+    sudo make all ARCH=arm64 LOG=LOG_WARN KDIR=../../rootfs/home/arm64/linux_5.4
     cp ./tools/hvisor ../rootfs/home/arm64/linux_5.4
     cp ./driver/hvisor.ko ../rootfs/home/arm64/linux_5.4
     cd ..
