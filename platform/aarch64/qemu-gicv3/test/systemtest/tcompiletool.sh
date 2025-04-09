@@ -3,6 +3,7 @@ set -e  # Exit immediately if any command fails
 
 # Compile hvisor-tool
 (
+    export PATH=$PATH:$(pwd)/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin
     cd ./platform/aarch64/qemu-gicv3/image/virtdisk
     mkdir rootfs/
     sudo mount rootfs1.ext4 rootfs
