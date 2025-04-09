@@ -8,7 +8,7 @@ set -e  # Exit immediately if any command fails
     sudo mount rootfs1.ext4 rootfs
     echo "this is test" >> test.txt
     sudo cp test.txt rootfs/home/arm64
-    sudo ls -ld rootfs
+    sudo ls -ld rootfs/home/arm64
     pwd
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
