@@ -16,6 +16,7 @@ set -e  # Exit immediately if any command fails
     cd ..
     sudo cp ./hvisor-tool/tools/hvisor ./rootfs/home/arm64/
     sudo cp ./hvisor-tool/driver/hvisor.ko ./rootfs/home/arm64/
+    sudo ls -l rootfs/home/arm64
     sudo umount rootfs
     
 )
