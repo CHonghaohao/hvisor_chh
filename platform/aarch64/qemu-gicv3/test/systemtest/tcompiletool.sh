@@ -28,7 +28,7 @@ set -e  # Exit immediately if any command fails
     git clone https://github.com/CHonghaohao/linux_5.4.git
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
-    make all ARCH=arm64 LOG=LOG_WARN KDIR=../../linux_5.4
+    make all ARCH=arm64 LOG=LOG_WARN KDIR=../../linux_5.4 ROOT=../rootfs/
     cd ..
     echo "Project directory is: $GITHUB_WORKSPACE"
     sudo cp ./hvisor-tool/tools/hvisor ./rootfs/home/arm64/
@@ -36,9 +36,11 @@ set -e  # Exit immediately if any command fails
     # sudo cp ../dts/zone1-linux.dtb ./rootfs/home/arm64/zone1-linux.dtb
     # sudo cp ../../configs/zone1-linux.json ./rootfs/home/arm64/linux2.json
     # sudo cp ../../configs/zone1-linux-virtio.json ./rootfs/home/arm64/virtio_cfg2.json.json
+    
     # sudo cp -r ../../test/systemtest/testcase/* ./rootfs/home/arm64/test/testcase/
     # sudo cp ../../test/systemtest/textract_dmesg.sh ./rootfs/home/arm64/test/
     # sudo cp ../../test/systemtest/tresult.sh ./rootfs/home/arm64/test/
+
     # sudo cp ../../test/systemtest/linux2.sh ./rootfs/home/arm64/
     # sudo cp ../../test/systemtest/screen_linux2.sh ./rootfs/home/arm64/
 
