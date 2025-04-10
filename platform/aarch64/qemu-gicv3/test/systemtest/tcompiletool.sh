@@ -30,7 +30,8 @@ set -e -x  # Exit immediately if any command fails
     cd hvisor-tool
     ldd --version
     echo "rootfs pwd: $GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs/"
-    make all ARCH=arm64 LOG=LOG_INFO KDIR=../../linux_5.4 ROOT=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs/
+    # make all ARCH=arm64 LOG=LOG_INFO KDIR=../../linux_5.4 ROOT=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs/
+    make all ARCH=arm64 LOG=LOG_INFO KDIR=../../linux_5.4 -L/opt/glibc-2.35/lib -I/opt/glibc-2.35/include
     cd ..
     echo "Project directory is: $GITHUB_WORKSPACE"
     sudo cp ./hvisor-tool/tools/hvisor ./rootfs/home/arm64/
