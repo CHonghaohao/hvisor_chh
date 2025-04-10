@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e  # Exit immediately if any command fails
+set -e -x  # Exit immediately if any command fails
 
 # Compile hvisor-tool
 (
