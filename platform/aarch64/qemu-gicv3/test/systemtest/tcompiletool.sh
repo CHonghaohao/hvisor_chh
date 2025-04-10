@@ -28,7 +28,7 @@ set -e  # Exit immediately if any command fails
     git clone https://github.com/CHonghaohao/linux_5.4.git
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
-    make all ARCH=arm64 LOG=LOG_WARN KDIR=../../linux_5.4 ROOT=../rootfs/
+    make all ARCH=arm64 LOG=LOG_DEBUG KDIR=../../linux_5.4 ROOT=../rootfs/
     cd ..
     echo "Project directory is: $GITHUB_WORKSPACE"
     sudo cp ./hvisor-tool/tools/hvisor ./rootfs/home/arm64/
