@@ -55,7 +55,8 @@ deploy_artifacts() {
     sudo cp -v "${CONFIG_DIR}/zone1-linux.json" "${dest_dir}/zone1-linux.json"
     sudo cp -v "${CONFIG_DIR}/zone1-linux-virtio.json" "${dest_dir}/zone1-linux-virtio.json"
     # Test artifacts
-    find "${TEST_DIR}/testcase" -maxdepth 1 -type f -exec sudo cp -v {} "${test_dest}/testcase/" \;
+    sudo cp -v "${TEST_DIR}/testcase/*" "${test_dest}/testcase/"
+    # find "${TEST_DIR}/testcase" -maxdepth 1 -type f -exec sudo cp -v {} "${test_dest}/testcase/" \;
     sudo cp -v "${TEST_DIR}/textract_dmesg.sh" "${test_dest}/"
     sudo cp -v "${TEST_DIR}/tresult.sh" "${test_dest}/"
     # Boot zone1 shells

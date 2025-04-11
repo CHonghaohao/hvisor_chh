@@ -3,8 +3,8 @@
 # set -x
 # Define two arrays to store filenames from two lists
 
-TESTCASE_DIR="./platform/aarch64/qemu-gicv3/test/systemtest/testcase"
-TESTRESULT_DIR="./platform/aarch64/qemu-gicv3/test/systemtest/testresult"
+TESTCASE_DIR="./test/testcase"
+TESTRESULT_DIR="./test/testresult"
 
 testcase_file_list=(
     $TESTCASE_DIR/tc_ls.txt
