@@ -29,6 +29,7 @@ set -e -x  # Exit immediately if any command fails
     git clone https://github.com/syswonder/hvisor-tool.git
     cd hvisor-tool
     ldd --version
+    aarch64-linux-gnu-gcc --version
     echo "rootfs pwd: $GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs"
 
 
