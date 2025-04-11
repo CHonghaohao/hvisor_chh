@@ -40,7 +40,7 @@ build_hvisor_tool() {
     make all \
         ARCH=arm64 \
         LOG=LOG_INFO \
-        KDIR="${LINUX_KERNEL_DIR}" \
+        KDIR="${LINUX_KERNEL_DIR}"
 }
 
 deploy_artifacts() {
