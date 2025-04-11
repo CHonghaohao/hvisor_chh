@@ -88,7 +88,7 @@ expect {
 # Test starting zone1
 expect {
     "root@(none):/home/arm64# " {
-        send "./linux2.sh\r"
+        send "./boot_zone1.sh\r"
     }
     timeout {
         exit 1
@@ -116,7 +116,7 @@ expect {
 # Test screen access to zone1
 expect {
     "root@(none):/home/arm64# " {
-        send "./screen_linux2.sh\r"
+        send "./screen_zone1.sh\r"
         send "\r"
     }
     timeout {
