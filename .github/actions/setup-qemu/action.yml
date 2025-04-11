@@ -26,12 +26,11 @@ runs:
         wget https://download.qemu.org/qemu-${{ inputs.qemu-version }}.tar.xz
         tar xJf qemu-${{ inputs.qemu-version }}.tar.xz
         cd qemu-${{ inputs.qemu-version }}
-        pwd
 
     - name: Configure Build
       shell: bash
+      working-directory: ./qemu-${{ inputs.qemu-version }}  # 关键参数
       run: |
-        pwd
         ./configure \
           --prefix=${{ inputs.install-path }} \
           --target-list=aarch64-softmmu \
@@ -44,6 +43,7 @@ runs:
 
     - name: Compile & Install
       shell: bash
+      working-directory: ./qemu-${{ inputs.qemu-version }}  # 关键参数
       run: |
         make -j$(nproc)
         sudo make install
