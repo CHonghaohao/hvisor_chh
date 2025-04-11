@@ -30,10 +30,11 @@ set -e -x  # Exit immediately if any command fails
     cd hvisor-tool
     ldd --version
     aarch64-linux-gnu-gcc --version
+    qemu-system-aarch64 --version
     echo "rootfs pwd: $GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs"
 
-
-    make all ARCH=arm64 LOG=LOG_INFO KDIR=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/linux_5.4 ROOT=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs
+    make all ARCH=arm64 LOG=LOG_INFO KDIR=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/linux_5.4
+    # make all ARCH=arm64 LOG=LOG_INFO KDIR=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/linux_5.4 ROOT=$GITHUB_WORKSPACE/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs
 
 
 
