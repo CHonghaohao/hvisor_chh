@@ -29,7 +29,7 @@ runs:
 
     - name: Configure Build
       shell: bash
-      working-directory: ./qemu-${{ inputs.qemu-version }}  # 关键参数
+      working-directory: ./qemu-${{ inputs.qemu-version }}
       run: |
         ./configure \
           --prefix=${{ inputs.install-path }} \
@@ -43,7 +43,7 @@ runs:
 
     - name: Compile & Install
       shell: bash
-      working-directory: ./qemu-${{ inputs.qemu-version }}  # 关键参数
+      working-directory: ./qemu-${{ inputs.qemu-version }}
       run: |
         make -j$(nproc)
         sudo make install
@@ -51,5 +51,7 @@ runs:
     - name: Set Environment Path
       shell: bash
       run: |
-        echo "${{ inputs.install-path }}/bin" >> $GITHUB_PATH
+        export PATH=$PATH:${{ inputs.install-path }}/bin
+        echo $GITHUB_PATH
+        echo $PATH
         qemu-system-aarch64 --version
