@@ -26,10 +26,12 @@ runs:
         wget https://download.qemu.org/qemu-${{ inputs.qemu-version }}.tar.xz
         tar xJf qemu-${{ inputs.qemu-version }}.tar.xz
         cd qemu-${{ inputs.qemu-version }}
+        pwd
 
     - name: Configure Build
       shell: bash
       run: |
+        pwd
         ./configure \
           --prefix=${{ inputs.install-path }} \
           --target-list=aarch64-softmmu \
