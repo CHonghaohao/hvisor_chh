@@ -134,7 +134,7 @@ jobs:
   systemtest:
     # if: false # we need to update corresponding scripts for the new board abstraction
     name: systemtest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
