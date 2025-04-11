@@ -51,5 +51,6 @@ runs:
     - name: Set Environment Path
       shell: bash
       run: |
-        echo "export PATH=$PATH:${{ inputs.install-path }}/bin" >> ~/.bashrc && source ~/.bashrc
+        export PATH="${{ inputs.install-path }}/bin:$PATH"
+        echo "${{ inputs.install-path }}/bin" >> $GITHUB_PATH
         qemu-system-aarch64 --version
