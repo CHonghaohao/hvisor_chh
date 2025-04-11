@@ -24,21 +24,21 @@ runs:
       shell: bash
       run: |
         wget https://download.qemu.org/qemu-${{ inputs.qemu-version }}.tar.xz
-        tar xvJf qemu-${{ inputs.qemu-version }}.tar.xz
+        tar xJf qemu-${{ inputs.qemu-version }}.tar.xz
         cd qemu-${{ inputs.qemu-version }}
 
     - name: Configure Build
       shell: bash
       run: |
         ./configure \
-        --prefix=${{ inputs.install-path }} \
-        --target-list=aarch64-softmmu \
-        --enable-kvm \
-        --enable-nettle \
-        --enable-user \
-        --enable-linux-user \
-        --enable-slirp \
-        --enable-debug
+          --prefix=${{ inputs.install-path }} \
+          --target-list=aarch64-softmmu \
+          --enable-kvm \
+          --enable-nettle \
+          --enable-user \
+          --enable-linux-user \
+          --enable-slirp \
+          --enable-debug
 
     - name: Compile & Install
       shell: bash
