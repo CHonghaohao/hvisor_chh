@@ -90,4 +90,4 @@ deploy_artifacts() {
     # Cleanup
     echo "=== Unmounting rootfs ==="
     sudo umount "${ROOTFS_DIR}"
-)
+) || exit 1
