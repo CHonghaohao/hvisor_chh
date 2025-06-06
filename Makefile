@@ -1,9 +1,9 @@
-ARCH ?= aarch64
-LOG ?= info
+ARCH ?= riscv64
+LOG ?= trace
 STATS ?= off
 PORT ?= 2333
 MODE ?= debug
-BOARD ?= qemu-gicv3
+BOARD ?= megrez
 FEATURES=
 BID ?=
 
@@ -135,8 +135,10 @@ monitor:
 jlink-server:
 	JLinkGDBServer -select USB -if JTAG -device Cortex-A53 -port 1234
 
-cp:
-	cp $(hvisor_bin) ~/tftp
+# cp:
+# 	cp $(hvisor_bin) ~/tftp
+cp: all
+	cp $(hvisor_bin) /mnt/f/file/megrez/
 
 test-pre: download-test-img
 	chmod +x platform/$(ARCH)/$(BOARD)/test/runner.sh
