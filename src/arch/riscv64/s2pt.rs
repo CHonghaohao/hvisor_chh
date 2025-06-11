@@ -23,6 +23,9 @@ use core::fmt;
 use numeric_enum_macro::numeric_enum;
 use tock_registers::interfaces::Writeable;
 
+// #[cfg(feature = "riscv_ext_intrinsics")]
+// extern crate core;
+
 use crate::memory::{
     addr::{HostPhysAddr, PhysAddr},
     MemFlags,
@@ -97,6 +100,8 @@ impl From<MemFlags> for DescriptorAttr {
 pub struct PageTableEntry(pub u64);
 const PTE_PPN_MASK: u64 = 0x3F_FFFF_FFFF_FC00; //[10..53]ppn
 const PPN_MASK: u64 = 0xFF_FFFF_FFFF_F000; //[12..55]ppn
+// const PTE_PPN_MASK: u64 = 0x3F_FFFF_FFFF_FFFF_FC00; // [10..57] ppn for Sv48
+// const PPN_MASK: u64 = 0xFFFF_FFFF_FFFF_FFFF_F000; // [12..59] ppn for Sv48
 impl PageTableEntry {
     pub const fn empty() -> Self {
         Self(0)
@@ -178,7 +183,21 @@ impl PagingInstr for S2PTInstr {
             bits.set_bits(0..44, root_paddr >> 12);
             println!("HGATP: {:#x?}", bits);
             write_csr!(CSR_HGATP, bits);
-            //core::arch::asm!("hsfence.vvma");//not supported in rust
+            // let hgatp = riscv_h::register::hgatp::read();
+            // debug!("CSR_HGATP {:#x?}", bits);
+            // println!("HGATP: {:#x?}", bits);
+
+             // SAFETY: Flush gTLB
+            // unsafe { core::arch::riscv64::hfence_gvma_all() };
+
+            // SAFETY: Flush I-Cache
+            unsafe { riscv::asm::fence_i() };
+
+            unsafe {
+                core::arch::asm!("hfence.vvma", "hfence.gvma");
+            }
+
+            // core::arch::asm!("hsfence.vvma");//not supported in rust
         }
     }
 

@@ -129,6 +129,14 @@ pub fn sync_exception_handler(current_cpu: &mut ArchCpu) {
     trace!("CSR_HTVAL: {:#x}", trap_value);
     trace!("CSR_HTINST: {:#x}", trap_ins);
     trace!("CSR_SEPC: {:#x}", trap_pc);
+    warn!("CSR_SEPC: {:#x}", trap_pc);
+    let stval = riscv::register::stval::read();
+    warn!("stval: {:#x}", stval);
+    warn!(
+        "CPU {} sync exception, sepc: {:#x}",
+        current_cpu.cpuid, current_cpu.sepc
+    );
+
 
     match trap_code {
         ExceptionType::ECALL_VS => {

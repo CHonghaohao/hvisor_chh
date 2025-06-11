@@ -53,7 +53,11 @@ impl ArchCpu {
             // first_cpu: 0,
             power_on: false,
             init: false,
-            sstc: cfg!(feature = "sstc"),
+            // sstc: cfg!(feature = "sstc"),
+            // #[cfg(feature = "sstc")]
+            // sstc: true,
+            // #[cfg(not(feature = "sstc"))]
+            sstc: false,
         };
         ret
     }
@@ -65,6 +69,7 @@ impl ArchCpu {
     }
 
     pub fn reset_regs(&mut self, entry: usize, cpu_id: usize, dtb: usize) {
+        println!("!!!!!!!reset_regs");
         //self.sepc = guest_test as usize as u64;
         write_csr!(CSR_SSCRATCH, self as *const _ as usize); //arch cpu pointer
         self.sepc = entry;
@@ -80,13 +85,16 @@ impl ArchCpu {
         }
         self.x[10] = cpu_id; // cpu id
         self.x[11] = dtb; // dtb addr
-
-        if self.sstc {
-            set_csr!(CSR_HENVCFG, 1 << 63);
-            set_csr!(CSR_VSTIMECMP, usize::MAX);
-        } else {
-            set_csr!(CSR_HENVCFG, 0);
-        }
+        // println!("!!!!!!!reset_regs1");
+        // if self.sstc {
+        //     println!("!!!!!!!yes sstc");
+        //     set_csr!(CSR_HENVCFG, 1 << 63);
+        //     set_csr!(CSR_VSTIMECMP, usize::MAX);
+        // } else {
+        //     println!("!!!!!!!no sstc");
+        //     set_csr!(CSR_HENVCFG, 0);
+        // }
+        // println!("!!!!!!!reset_regs4");
         set_csr!(CSR_HCOUNTEREN, 1 << 1); // HCOUNTEREN_TM
                                           // In VU-mode, a counter is not readable unless the applicable bits are set in both hcounteren and scounteren.
         write_csr!(CSR_HTIMEDELTA, 0);
@@ -98,6 +106,7 @@ impl ArchCpu {
         write_csr!(CSR_VSTVAL, 0);
         write_csr!(CSR_HVIP, 0);
         write_csr!(CSR_VSATP, 0);
+        println!("!!!!!!!reset_regs11");
     }
 
     pub fn init_interrupt(&self) {
@@ -144,6 +153,7 @@ impl ArchCpu {
     }
 
     pub fn idle(&mut self) -> ! {
+        println!("!!!!!!!idle");
         extern "C" {
             fn vcpu_arch_entry() -> !;
         }
