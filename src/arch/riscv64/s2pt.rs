@@ -8,6 +8,9 @@ use core::fmt;
 use numeric_enum_macro::numeric_enum;
 use tock_registers::interfaces::Writeable;
 
+// #[cfg(feature = "riscv_ext_intrinsics")]
+// extern crate core;
+
 use crate::memory::{
     addr::{HostPhysAddr, PhysAddr},
     MemFlags,
@@ -163,7 +166,21 @@ impl PagingInstr for S2PTInstr {
             bits.set_bits(0..44, root_paddr >> 12);
             println!("HGATP: {:#x?}", bits);
             write_csr!(CSR_HGATP, bits);
-            //core::arch::asm!("hsfence.vvma");//not supported in rust
+            let hgatp = riscv_h::register::hgatp::read();
+            debug!("CSR_HGATP {:#x?}", hgatp.bits());
+            // println!("HGATP: {:#x?}", bits);
+
+             // SAFETY: Flush gTLB
+            // unsafe { core::arch::riscv64::hfence_gvma_all() };
+
+            // SAFETY: Flush I-Cache
+            unsafe { riscv::asm::fence_i() };
+
+            unsafe {
+                core::arch::asm!("hfence.vvma", "hfence.gvma");
+            }
+
+            // core::arch::asm!("hsfence.vvma");//not supported in rust
         }
     }
 
