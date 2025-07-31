@@ -192,6 +192,8 @@ jobs:
 
       - name: test version0
         run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6-dev-arm64-cross
           # aarch64-linux-gnu-gcc --version
           ls -la /usr/aarch64-linux-gnu/
 
