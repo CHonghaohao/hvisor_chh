@@ -192,7 +192,7 @@ jobs:
 
       - name: test version0
         run: |
-          aarch64-linux-gnu-gcc --version
+          # aarch64-linux-gnu-gcc --version
           ls -la /usr/aarch64-linux-gnu/
 
       - name: Install Dependencies
