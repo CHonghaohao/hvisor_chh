@@ -6,11 +6,11 @@ on:
   push:
     branches:
       - main
-      - dev
+      - dev-citest
   pull_request:
     branches:
       - main
-      - dev
+      - dev-citest
   workflow_dispatch:
 env:
   MODE: debug
@@ -202,6 +202,12 @@ jobs:
         run: |
           echo "ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
           echo "BOARD=${{ matrix.board }}" >> $GITHUB_ENV
+
+      - name: test version
+        run: |
+          aarch64-linux-gnu-gcc --version
+          ls -la /usr/aarch64-linux-gnu/
+
       - name: Run System Test
         run: make stest
 
